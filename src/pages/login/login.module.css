@@ -1,0 +1,27 @@
+.mainImg{
+    width: 740px;
+    height: 385px;
+    margin-right: 1rem;
+    
+}
+.main{
+    width: 438px;
+    height: 385px;
+}
+
+
+@media(max-width:1240px){
+
+}
+@media(max-width:992px){
+    /* large */
+}
+@media(max-width:768px){
+    /* medium */
+}
+@media(max-width:576px){
+    /* small */
+}
+@media(max-width:480px){
+    /* extra small */
+}
