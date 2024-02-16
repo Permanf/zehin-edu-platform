@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import logo from "../../assets/logo.png"
+import loginImage from "../../assets/loginImage.png"
 import { useForm, Controller } from "react-hook-form";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import styles from "./login.module.css"
@@ -93,7 +94,14 @@ const Login = () => {
         <div className="w-full h-[52rem] flex flex-col justify-center md:mt-0 mt-10">
           <h1 className="font-bold text-2xl my-5">Тесты для Олимпиадных работ</h1>
           <div className="flex flex-col md:flex-row">
-          <div className={`${styles.mainImg} bg-red-300 rounded-3xl`}>
+          <div  
+          style={{
+            backgroundImage: `url(${loginImage})`,
+            backgroundPosition:"top",
+            backgroundRepeat:"no-repeat",
+            backgroundSize:"cover"
+        }}
+          className={`${styles.mainImg} bg-red-300 rounded-3xl`}>
           </div>
           <div className={`${styles.mainForm} w-full bg-white rounded-3xl p-8`}>
             <h1 className="font-bold text-2xl text-center mb-10">Начать тест</h1>
