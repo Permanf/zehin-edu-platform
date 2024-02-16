@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IDeleteApi, IGetApi, IPostApi, IUpdateApi, IUploadApi } from "./api.interface";
+import { GetCookie } from "../../utils/cookie";
 // import store from "../index";
 // import { userLoaded } from "../actions/auth";
 // import { Logout1 } from "../middlewares/auth";
@@ -9,7 +10,7 @@ import { IDeleteApi, IGetApi, IPostApi, IUpdateApi, IUploadApi } from "./api.int
 
 export const axiosInstance = axios.create({
     // baseURL: API_BASE_URL,
-  baseURL: "http://192.168.192.81:3061",
+  baseURL: "http://93.171.223.101:880/api/v10",
   headers: {
     "Content-Type": "application/json",
     accept: "application/json",
@@ -57,24 +58,25 @@ axiosInstance.interceptors.response.use(
     }
   }
 );
-
 export const api = {
-  get: async ({ url, token } : IGetApi ) => {
+  get: async ({ url} : IGetApi ) => {
+    // console.log(token)
     const config = {
       headers: {
         "Content-Type": "application/json",
         accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${GetCookie("token-zehin")}`,
       },
     };
     return await axiosInstance.get(url, config);
   },
-  post: async ({ url, token, params, method } : IPostApi ) => {
+  post: async ({ url, params, method } : IPostApi ) => {
+    // console.log(token)
     const config = {
       headers: {
         "Content-Type": "application/json",
         accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${GetCookie("token-zehin")}`, 
       },
     };
     return method == "POST" ? await axiosInstance.post(url, params, config) : await axiosInstance.put(url, params, config);

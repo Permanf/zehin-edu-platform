@@ -1,11 +1,11 @@
 export interface IGetApi {
     url: string;
-    token: string | null;
+    // token: string | null;
 }
 
 export interface IPostApi {
     url: string;
-    token: string | null;
+    // token: string | null;
     params: string;
     method: string;
 }

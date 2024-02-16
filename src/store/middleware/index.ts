@@ -1,9 +1,9 @@
 import { api } from "../api/index";
-import { IDeleteApi, IGetApi, IPostApi, IUpdateApi, IUploadApi } from "./middleware.interface";
+import {  IGetApi } from "./middleware.interface";
 
-export const get = async ({ url, token, action }: IGetApi) => {
+export const get = async ({ url, action }: IGetApi) => {
     try {
-      const response = await api.get({ url, token });
+      const response = await api.get({ url });
       return action({ success: true, data: response });
     } catch (error) {
       console.log(error);

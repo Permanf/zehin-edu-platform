@@ -28,12 +28,6 @@
     .layout{
         width: 100%;
     }
-    .main{
-        width: 100%;
-    }
-    .advertising{
-        display: none;
-    }
 }
 @media(max-width:768px){
     /* medium */

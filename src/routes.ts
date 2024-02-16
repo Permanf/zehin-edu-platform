@@ -5,7 +5,7 @@ const TestsPage = lazy(() => import("./pages/tests/index"));
 const TestsSlugPage = lazy(() => import("./pages/tests/slug/index"));
 const QuestionSlugPage = lazy(() => import("./pages/questions/slug/index"));
 const ResultPage = lazy(() => import("./pages/result/index"));
-const UsersPage = lazy(() => import("./pages/users/index"));
+const UserTestsPage = lazy(() => import("./pages/user-tests/index"));
 
 
 export const routes_app = [
@@ -40,10 +40,10 @@ export const routes_app = [
       element: ResultPage,
     },
     {
-      path: "/users",
+      path: "/user-tests",
       exact: true,
-      name: "Users page",
-      element: UsersPage,
+      name: "User Test page",
+      element: UserTestsPage,
     },
     // {
     //   path: "/electron-filing",

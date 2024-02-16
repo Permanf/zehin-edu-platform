@@ -1,17 +1,16 @@
-import { AppShell, Button, Center, Loader } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { Suspense, lazy } from 'react';
+import { AppShell, Center, Loader } from '@mantine/core';
+// import { useDisclosure } from '@mantine/hooks';
+import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { routes_app } from '../routes';
 import styles from "./layout.module.css"
 import { Header } from './header/header';
 
-const Login = lazy(() => import("../pages/login"));
 
 
 function CollapseDesktop() {
-  const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
-  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(false);
+  // const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
+  // const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(false);
 
   return (
     <AppShell
@@ -20,7 +19,7 @@ function CollapseDesktop() {
       navbar={{
         width: 300,
         breakpoint: 'sm',
-        collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+        collapsed: { mobile: !false, desktop: !false },
       }}
     >
       <AppShell.Header>
@@ -37,7 +36,6 @@ function CollapseDesktop() {
         </Button> */}
         <Suspense fallback={<Center className='h-full'><Loader /></Center>}>
         <Routes>
-        <Route path="auth/login"  element={<Login />} />
         <Route path="/" element={<Navigate to="/tests" replace />} />
           {routes_app?.map((route:any, idx:number) => {
             return (
