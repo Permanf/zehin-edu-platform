@@ -3,11 +3,13 @@ import { BreadcrumbsDemo } from "../../entities";
 import { IconAlarm } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { useGetQuestions } from "../../hooks/questions/useGetQuestions";
+import Lottie from "lottie-react";
+import Notfound from "../../assets/searchnotfound.json";
 
 const TestPage = () => {
     const items = [
         { title: 'Авторизоваться', href: '/auth/login' },
-        { title: 'Тест', href: '/tests' },
+        { title: 'Тесты', href: '/tests' },
       ]
     // const tests = [
     //     {id:0, name:"Test0", question_qty: 10, time:15},
@@ -27,7 +29,7 @@ const TestPage = () => {
     return(
         <>
             <div className="w-full h-20 rounded-xl bg-primaryBlue-100 flex items-center px-4 mt-10">
-                <BreadcrumbsDemo currentPage={"Tests"} items={items} />
+                <BreadcrumbsDemo currentPage={"Тесты"} items={items} />
             </div>
 
             <h1 className="font-bold text-2xl my-5">Выберите тест</h1>
@@ -40,8 +42,9 @@ const TestPage = () => {
                 :
                 tests?.onlineExams?.length == 0
                 ?
-                <Center className="mt-20">
-                    <p>Нет тест</p>
+                <Center className="flex flex-col mt-20">
+                    <Lottie animationData={Notfound} loop={true} className="w-48" />
+                    <span className="text-sm">No data</span>
                 </Center>
                 :
                 <Grid className="my-4" gutter={{ base: 7, md: 'md', xl: "md" }}>

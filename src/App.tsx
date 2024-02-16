@@ -37,7 +37,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <Suspense fallback={<Center className="h-screen"><Loader /></Center>}>
         <Routes>
         <Route path="auth/login"  element={<Login />} />

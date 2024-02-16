@@ -14,12 +14,12 @@ import { getUser } from "../../store/selectors/auth"
 export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const {data:profile} = useGetProfile();
+  const {data:profile, status} = useGetProfile();
   const user = useSelector(getUser)
   useEffect(()=>{
     // console.log(profile);
     dispatch(userData(profile))
-  },[profile]);
+  },[status]);
     return(
         <div className={`${styles.layoutBody} flex flex-col items-center h-full`}>
             <div className={`${styles.layout} flex flex-col h-full`}>
