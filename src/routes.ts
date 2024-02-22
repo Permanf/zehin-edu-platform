@@ -6,6 +6,7 @@ const TestsSlugPage = lazy(() => import("./pages/tests/slug/index"));
 const QuestionSlugPage = lazy(() => import("./pages/questions/slug/index"));
 const ResultPage = lazy(() => import("./pages/result/index"));
 const UserTestsPage = lazy(() => import("./pages/user-tests/index"));
+const UserExamHistory = lazy(() => import("./pages/user-tests/slug/index"));
 
 
 export const routes_app = [
@@ -45,16 +46,10 @@ export const routes_app = [
       name: "User Test page",
       element: UserTestsPage,
     },
-    // {
-    //   path: "/electron-filing",
-    //   exact: true,
-    //   name: translations[lang].dashboard,
-    //   element: ElectronFiling,
-    // },
-    // {
-    //   path: "/electron-filing/show/:id",
-    //   exact: true,
-    //   name: translations[lang].dashboard,
-    //   element: ElectronFilingShow,
-    // },
+    {
+      path: "/user-tests/:id",
+      exact: true,
+      name: "User Test page",
+      element: UserExamHistory,
+    },
   ];

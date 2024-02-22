@@ -5,7 +5,6 @@ import App from './App.tsx'
 import './styles/index.css'
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
-
 import { MantineProvider, createTheme } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { Notifications } from '@mantine/notifications';

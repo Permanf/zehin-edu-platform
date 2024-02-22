@@ -1,10 +1,13 @@
 import { AppShell, Center, Loader } from '@mantine/core';
 // import { useDisclosure } from '@mantine/hooks';
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { routes_app } from '../routes';
 import styles from "./layout.module.css"
 import { Header } from './header/header';
+
+
+const NotFound = lazy(() => import("../pages/404"));
 
 
 
@@ -50,7 +53,7 @@ function CollapseDesktop() {
                 )
             );
             })}
-          <Route path="*" element={<div>not founded page</div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       </div>
@@ -59,4 +62,4 @@ function CollapseDesktop() {
   );
 }
 
-export default CollapseDesktop
+export default CollapseDesktop;

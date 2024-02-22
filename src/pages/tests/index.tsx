@@ -5,34 +5,25 @@ import { Link } from "react-router-dom";
 import { useGetQuestions } from "../../hooks/questions/useGetQuestions";
 import Lottie from "lottie-react";
 import Notfound from "../../assets/searchnotfound.json";
+import translations from "./translation";
+import { useSelector } from "react-redux";
+import { getLang } from "../../store/selectors/auth";
 
 const TestPage = () => {
+    const lang = useSelector(getLang);
     const items = [
-        { title: 'Авторизоваться', href: '/auth/login' },
-        { title: 'Тесты', href: '/tests' },
+        { title: `${translations[lang as keyof typeof translations].auth}`, href: '/auth/login' },
+        { title: `${translations[lang as keyof typeof translations].tests}`, href: '/tests' },
       ]
-    // const tests = [
-    //     {id:0, name:"Test0", question_qty: 10, time:15},
-    //     {id:1, name:"Test1", question_qty: 10, time:15},
-    //     {id:2, name:"Test2", question_qty: 10, time:15},
-    //     {id:3, name:"Test3", question_qty: 10, time:15},
-    //     {id:4, name:"Test4", question_qty: 10, time:15},
-    //     {id:5, name:"Test5", question_qty: 10, time:15},
-    //     {id:6, name:"Test6", question_qty: 10, time:15},
-
-    // ]
     const {data: tests , isLoading } = useGetQuestions();
     // const {data: testById} = useGetQuestionById({id: `3`});
-    
-    // console.log(tests,"--tests")
-    // console.log(testById,"--testsId")
     return(
         <>
             <div className="w-full h-20 rounded-xl bg-primaryBlue-100 flex items-center px-4 mt-10">
-                <BreadcrumbsDemo currentPage={"Тесты"} items={items} />
+                <BreadcrumbsDemo currentPage={translations[lang as keyof typeof translations].tests} items={items} />
             </div>
 
-            <h1 className="font-bold text-2xl my-5">Выберите тест</h1>
+            <h1 className="font-bold text-2xl my-5">{translations[lang as keyof typeof translations].selectTest}</h1>
             {
                 isLoading
                 ?
@@ -63,16 +54,16 @@ const TestPage = () => {
                                         <span className="font-semibold text-lg">{item.name}</span>
                                         <div className="bg-gray-100 rounded-xl px-3 py-1 font-medium flex items-center">
                                             <IconAlarm size={21} />
-                                            <span className="ml-1">{item?.duration} мин</span>
+                                            <span className="ml-1">{item?.duration} {translations[lang as keyof typeof translations].min}</span>
                                         </div>
                                     </div>
-                                        <span className="my-3 text-gray-400">{item?.questionCount} Вопросов</span>
+                                        <span className="my-3 text-gray-400">{item?.questionCount} {translations[lang as keyof typeof translations].questions}</span>
                                         <Link to={`/tests/${item?.onlineExamID}`}>
                                         <Button
                                             fullWidth
                                             size="md"
                                             >
-                                            Выберите
+                                            {translations[lang as keyof typeof translations].select}
                                         </Button>
                                         </Link>
                                 </div>

@@ -12,6 +12,7 @@ import { GetCookie } from "./utils/cookie";
 // Container
 const Layout = lazy(() => import("./layouts/Layout"));
 const Login = lazy(() => import("./pages/login/index"));
+const NotFound = lazy(() => import("./pages/404"));
 
 
 const queryClient = new QueryClient();
@@ -20,11 +21,6 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(userLoading());
-    let language = localStorage.getItem("language");
-    if (!language) {
-      language = "tkm";
-      localStorage.setItem("language", "tkm");
-    }
     let token = GetCookie("token-zehin");
     if (!token) {
       dispatch(userLoadFailed());
@@ -37,7 +33,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
       <Suspense fallback={<Center className="h-screen"><Loader /></Center>}>
         <Routes>
         <Route path="auth/login"  element={<Login />} />
@@ -49,7 +45,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="*" element={<div>not founded</div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </QueryClientProvider>

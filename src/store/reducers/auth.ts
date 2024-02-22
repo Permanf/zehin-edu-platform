@@ -5,6 +5,7 @@ import {
     USER_LOADING,
     USER_LOAD_FAILED,
     USER_LOADED,
+    CHANGE_LANGUAGE,
   } from "../actions/auth";
   
   const initialState = {
@@ -62,7 +63,7 @@ import {
           isLoading: false,
           user: {},
         };
-      case "CHANGE_LANGUAGE":
+      case CHANGE_LANGUAGE:
         localStorage.setItem("lang", action.payload);
         return {
           ...state,

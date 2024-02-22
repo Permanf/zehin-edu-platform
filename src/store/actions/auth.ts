@@ -30,3 +30,9 @@ export const userData = (data:any) => ({
   type: USER_DATA,
   payload: data,
 });
+
+export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE";
+export const changeLanguage = (data:any) => ({
+  type: CHANGE_LANGUAGE,
+  payload: data,
+});

@@ -6,11 +6,15 @@ import * as Yup from "yup";
 import logo from "../../assets/logo.png"
 import loginImage from "../../assets/loginImage.png"
 import { useForm, Controller } from "react-hook-form";
-import { Button, PasswordInput, TextInput } from "@mantine/core";
+import { Button, PasswordInput, Select, TextInput } from "@mantine/core";
 import styles from "./login.module.css"
 import { useLoginUser } from "../../hooks/login/useLoginUser";
 import { SetCookie } from "../../utils/cookie";
-import { loginSuccess, userData } from "../../store/actions/auth";
+import { changeLanguage, loginSuccess, userData } from "../../store/actions/auth";
+import translations from "./translation";
+import { getLang } from "../../store/selectors/auth";
+import { IconChevronDown } from "@tabler/icons-react";
+import { notifications } from "@mantine/notifications";
 
 function reducer(state:any, action:any) {
     switch (action.type) {
@@ -39,6 +43,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLogged } = useSelector((state:any) => state.auth);
+  const lang = useSelector(getLang);
   const location = useLocation();
   useEffect(() => {
     if (isLogged === true) {
@@ -54,29 +59,34 @@ const Login = () => {
     // eslint-disable-next-line
   }, [isLogged]);
   const addMutation = useLoginUser();
-  //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
   const onSubmit = (data:any) => {
     setState({ type: "SET_LOADING", payload: true });
     // console.log(data);
     addMutation.mutate(data);
   };
   useEffect(() => {
-    // console.log(addMutation,"--mut");
     if (addMutation.isSuccess) {
       setState({ type: "SET_LOADING", payload: false });
-      // console.log("successfully");
       // console.log(addMutation.data.data.token)
+      notifications.show({
+        title: `${translations[lang as keyof typeof translations].success}`,
+        message: '',
+      })
       SetCookie("token-zehin", addMutation.data?.data?.token);
       dispatch(loginSuccess(addMutation.data?.data?.token));
       dispatch(userData(addMutation.data?.data?.profile));
+      
     }
     if (addMutation.isError){
       console.log("error")
       setState({ type: "SET_LOADING", payload: false });
+      notifications.show({
+        color: "red",
+        title: `${translations[lang as keyof typeof translations].error}`,
+        message: ``,
+      })
     }
   },[addMutation.status]);
-
     return(
         <>
         <div className={`${styles.layoutBody} h-full flex flex-col items-center`}>
@@ -87,12 +97,24 @@ const Login = () => {
                   <img src={logo} alt="logo" className="w-12" />
                   <span className="font-semibold leading-5 ml-3">Türkmenistanyň Bilim <br/> Ministrligi</span>
               </Link>
+              <Select
+                  className="w-28 font-semibold"
+                  variant="unstyled"
+                  data={[
+                    {value:"tkm", label: 'Türkmen'},
+                    {value:"rus", label: 'Русский'}, 
+                    {value:"eng", label: "English"}
+                  ]}
+                  rightSection={<IconChevronDown size={15} />}
+                  value={lang}
+                  onChange={(_value) => dispatch(changeLanguage(_value))}
+                />
             </div>
             </div>
             </div>
         <div className={`${styles.layout} flex flex-col `}>
         <div className="w-full h-[52rem] flex flex-col justify-center md:mt-0 mt-10">
-          <h1 className="font-bold text-2xl my-5">Тесты для Олимпиадных работ</h1>
+          <h1 className="font-bold text-2xl my-5">{translations[lang as keyof typeof translations].loginTitle}</h1>
           <div className="flex flex-col md:flex-row">
           <div  
           style={{
@@ -104,7 +126,7 @@ const Login = () => {
           className={`${styles.mainImg} bg-red-300 rounded-3xl`}>
           </div>
           <div className={`${styles.mainForm} w-full bg-white rounded-3xl p-8`}>
-            <h1 className="font-bold text-2xl text-center mb-10">Начать тест</h1>
+            <h1 className="font-bold text-2xl text-center mb-10">{translations[lang as keyof typeof translations].start}</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
                 control={control}
@@ -116,8 +138,7 @@ const Login = () => {
                         onBlur={onBlur}
                         value={value}
                         ref={ref}
-                        placeholder="Username"
-                        // icon={<IconUser size={16} color={"black"} />}
+                        placeholder={translations[lang as keyof typeof translations].username}
                         error={errors?.username?.message}
                         size="md"
                         className="mb-7"
@@ -135,10 +156,9 @@ const Login = () => {
                     onBlur={onBlur}
                     value={value}
                     autoComplete="false"
-                    placeholder="Password"
+                    placeholder={translations[lang as keyof typeof translations].password}
                     mt="md"
                     size="md"
-                    // icon={<IconLock size={16} color={"black"} />}
                     error={errors?.password?.message}
                     />
                 )}
@@ -151,7 +171,7 @@ const Login = () => {
                     loading={state.loading}
                     size="md"
                 >
-                    Girmek
+                    {translations[lang as keyof typeof translations].login}
                 </Button>
               </form>
           </div>

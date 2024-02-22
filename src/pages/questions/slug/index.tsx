@@ -1,4 +1,4 @@
-import { Button} from "@mantine/core";
+import { Button, Center, Loader} from "@mantine/core";
 import { AnswerInput, AnswerMultiple, AnswerSingle, Stepper } from "../../../entities";
 import { IconAlarm, IconChevronLeft, IconXboxX } from '@tabler/icons-react';
 import { useEffect, useReducer, useState } from "react";
@@ -9,6 +9,10 @@ import { modals } from "@mantine/modals";
 import { setExamId, setQuestionStatus } from "../../../store/actions/data";
 import { useGetQuestionById } from "../../../hooks/questions/useGetQuestionById";
 import { useExamResult } from "../../../hooks/exam/useExamResult";
+import { notifications } from "@mantine/notifications";
+import translations from "../translation";
+import { getLang } from "../../../store/selectors/auth";
+
 
 function reducer(state:any, action:any) {
     switch (action.type) {
@@ -83,55 +87,18 @@ const SlugQuestion = () => {
         delete_id: null,
       });
     const exam = useSelector(getExam);
+    const lang = useSelector(getLang)
     const addMutationExam = useExamResult();
-    const initialTime = exam?.duration * 60; // 15 minutes in seconds
+    const initialTime = exam?.duration * 60; 
     const [timeLeft, setTimeLeft] = useState<any>(initialTime);
-    // const [question, setQuestion] = useState<any>(null);
     const params = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const questionStatus = useSelector(getQuestionStatus);
-    const {data: examQuestions} = useGetQuestionById({id: exam?.onlineExamID })
+    const {data: examQuestions, isLoading} = useGetQuestionById({id: exam?.onlineExamID })
     if (questionStatus == '') {
         navigate(`/tests`)
     }
-    // const questions = [
-    //     {id:1, question:"question1", 
-    //     answer: [
-    //         {id:1, answer:"answer1"}, 
-    //         {id:2, answer:"answer2"},
-    //         {id:3, answer:"answer3"},
-    //         {id:4, answer:"answer4"},
-    //     ]},
-    //     {id:2, question:"question2", 
-    //     answer: [
-    //         {id:1, answer:"answer21"}, 
-    //         {id:2, answer:"answer22"},
-    //         {id:3, answer:"answer23"},
-    //         {id:4, answer:"answer24"},
-    //     ]},
-    //     {id:3, question:"question3", 
-    //     answer: [
-    //         {id:1, answer:"answer31"}, 
-    //         {id:2, answer:"answer32"},
-    //         {id:3, answer:"answer33"},
-    //         {id:4, answer:"answer34"},
-    //     ]},
-    //     {id:4, question:"question4", 
-    //     answer: [
-    //         {id:1, answer:"answer1"}, 
-    //         {id:2, answer:"answer2"},
-    //         {id:3, answer:"answer3"},
-    //         {id:4, answer:"answer4"},
-    //     ]},
-    //     {id:5, question:"question5", 
-    //     answer: [
-    //         {id:1, answer:"answer1"}, 
-    //         {id:2, answer:"answer2"},
-    //         {id:3, answer:"answer3"},
-    //         {id:4, answer:"answer4"},
-    //     ]},
-    // ]
     useEffect(() => {
         const timer = setInterval(() => {
         setTimeLeft((prevTime:any) => prevTime - 1);
@@ -141,10 +108,24 @@ const SlugQuestion = () => {
     }, []);
 
     const formatTime = (time:any) => {
+      let have = 0
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
-        // console.log(minutes,"--", seconds)
-        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        if (minutes >= 0){
+          return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        } else {
+          have = 1
+          if (have==1){
+            notifications.show({
+              color: "red",
+              title: `${translations[lang as keyof typeof translations].noteTitle}`,
+              message: `${translations[lang as keyof typeof translations].noTime}`,
+              autoClose: 5000,
+            })
+            dispatch(setQuestionStatus(""));
+            navigate("/tests")
+          }
+        }
     };
 
     const openModal = () => modals.openConfirmModal({
@@ -154,10 +135,10 @@ const SlugQuestion = () => {
         centered: true,
         children: (
             <span className="flex justify-center font-bold text-xl text-center">
-            Вы уверены что хотите <br /> завершить тест?
+            {translations[lang as keyof typeof translations].sure}
             </span>
         ),
-        labels: { confirm: 'Да', cancel: 'Нет' },
+        labels: { confirm: `${translations[lang as keyof typeof translations].yes}`, cancel: `${translations[lang as keyof typeof translations].no}` },
         onCancel: () => console.log('Cancel'),
         onConfirm: () => {
             // console.log('Confirmed');
@@ -225,11 +206,17 @@ const SlugQuestion = () => {
                 className="hover:bg-red-500"
                 onClick={openModal}
             >
-                Завершить тест
+                {translations[lang as keyof typeof translations].complete}
             </Button>
         </div>
-        
-        <div className="w-full p-5 border rounded-xl shadow-md bg-white">
+        {
+          isLoading
+          ?
+          <Center className="mt-10">
+            <Loader />
+          </Center>
+          :
+          <div className="w-full p-5 border rounded-xl shadow-md bg-white">
             <Stepper currentStep={params.id} steps={examQuestions?.questions} />
             <div className="w-full my-10">
                 <h1 className="font-bold text-2xl my-5">{examQuestions?.questions[parseInt(params?.id ?? '') - 1]?.question}</h1>
@@ -281,7 +268,7 @@ const SlugQuestion = () => {
                                 color="gray.1"
                                 styles={{ label: { color: 'black' }}}
                                 >
-                                Предыдущий
+                                {translations[lang as keyof typeof translations].prev}
                             </Button>
                         </div>
                     </Link>
@@ -291,20 +278,21 @@ const SlugQuestion = () => {
                         {
                             params?.id == examQuestions?.questions?.length
                             ?
-                            <Button loading={state.loading} fullWidth size="md" onClick={handleResult}>Результат</Button>
+                            <Button loading={state.loading} fullWidth size="md" onClick={handleResult}>{translations[lang as keyof typeof translations].result}</Button>
                             :
                             <Link to={`/questions/${parseInt(params?.id) + 1}`}>
-                                <Button fullWidth size="md" >Далее</Button>
+                                <Button fullWidth size="md" >{translations[lang as keyof typeof translations].next}</Button>
                             </Link>
                         }
                     </div>
                     </>
-
                     :
                     null
                 }
             </div>
         </div>
+        }
+        
         </>
     )
 }
