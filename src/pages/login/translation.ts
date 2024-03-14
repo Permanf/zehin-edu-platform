@@ -8,7 +8,7 @@ export default {
     success:"Üstünlikli boldy",
     error:"Üstünlikli bolmady",
     examHistory:"Synag taryhy",
-    logout:"",
+    logout:"Çykmak",
     },
     rus: {
     loginTitle: "Тесты для Олимпиадных работ",
