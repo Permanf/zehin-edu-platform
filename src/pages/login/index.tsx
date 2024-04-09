@@ -3,8 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import logo from "../../assets/logo.png"
-import loginImage from "../../assets/loginImage.png"
+// import logo from "../../assets/logo.png"
+// import loginImage from "../../assets/loginImage.png"
 import { useForm, Controller } from "react-hook-form";
 import { Button, PasswordInput, Select, TextInput } from "@mantine/core";
 import styles from "./login.module.css"
@@ -94,8 +94,8 @@ const Login = () => {
             <div className={`${styles.layout} flex flex-col`}>
             <div className="flex justify-between items-center w-full h-full">
               <Link to="/" className="flex h-full items-center">
-                  <img src={logo} alt="logo" className="w-12" />
-                  <span className="font-semibold leading-5 ml-3">Türkmenistanyň Bilim <br/> Ministrligi</span>
+                  {/* <img src={logo} alt="logo" className="w-12" /> */}
+                  <span className="font-semibold leading-5 ml-3">Test for student</span>
               </Link>
               <Select
                   className="w-28 font-semibold"
@@ -117,12 +117,12 @@ const Login = () => {
           <h1 className="font-bold text-2xl my-5">{translations[lang as keyof typeof translations].loginTitle}</h1>
           <div className="flex flex-col md:flex-row">
           <div  
-          style={{
-            backgroundImage: `url(${loginImage})`,
-            backgroundPosition:"top",
-            backgroundRepeat:"no-repeat",
-            backgroundSize:"cover"
-        }}
+          // style={{
+          //   backgroundImage: `url(${loginImage})`,
+          //   backgroundPosition:"top",
+          //   backgroundRepeat:"no-repeat",
+          //   backgroundSize:"cover"
+          // }}
           className={`${styles.mainImg} bg-red-300 rounded-3xl`}>
           </div>
           <div className={`${styles.mainForm} w-full bg-white rounded-3xl p-8`}>
