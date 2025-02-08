@@ -3,8 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-// import logo from "../../assets/logo.png"
-// import loginImage from "../../assets/loginImage.png"
+import logo from "../../assets/logo.png"
+import loginImage from "../../assets/loginImage.png"
 import { useForm, Controller } from "react-hook-form";
 import { Button, PasswordInput, Select, TextInput } from "@mantine/core";
 import styles from "./login.module.css"
@@ -15,6 +15,12 @@ import translations from "./translation";
 import { getLang } from "../../store/selectors/auth";
 import { IconChevronDown } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
+
+
+interface IFormData {
+  username: string;
+  password: string;
+}
 
 function reducer(state:any, action:any) {
     switch (action.type) {
@@ -35,7 +41,6 @@ const Login = () => {
     const {
       handleSubmit,
       formState: { errors },
-      // setError,
       control,
     } = useForm({
       resolver: yupResolver(schema),
@@ -59,15 +64,13 @@ const Login = () => {
     // eslint-disable-next-line
   }, [isLogged]);
   const addMutation = useLoginUser();
-  const onSubmit = (data:any) => {
+  const onSubmit = (data:IFormData) => {
     setState({ type: "SET_LOADING", payload: true });
-    // console.log(data);
     addMutation.mutate(data);
   };
   useEffect(() => {
     if (addMutation.isSuccess) {
       setState({ type: "SET_LOADING", payload: false });
-      // console.log(addMutation.data.data.token)
       notifications.show({
         title: `${translations[lang as keyof typeof translations].success}`,
         message: '',
@@ -78,7 +81,6 @@ const Login = () => {
       
     }
     if (addMutation.isError){
-      console.log("error")
       setState({ type: "SET_LOADING", payload: false });
       notifications.show({
         color: "red",
@@ -94,7 +96,7 @@ const Login = () => {
             <div className={`${styles.layout} flex flex-col`}>
             <div className="flex justify-between items-center w-full h-full">
               <Link to="/" className="flex h-full items-center">
-                  {/* <img src={logo} alt="logo" className="w-12" /> */}
+                  <img src={logo} alt="logo" className="w-12" />
                   <span className="font-semibold leading-5 ml-3">Test for student</span>
               </Link>
               <Select
@@ -117,13 +119,13 @@ const Login = () => {
           <h1 className="font-bold text-2xl my-5">{translations[lang as keyof typeof translations].loginTitle}</h1>
           <div className="flex flex-col md:flex-row">
           <div  
-          // style={{
-          //   backgroundImage: `url(${loginImage})`,
-          //   backgroundPosition:"top",
-          //   backgroundRepeat:"no-repeat",
-          //   backgroundSize:"cover"
-          // }}
-          className={`${styles.mainImg} bg-red-300 rounded-3xl`}>
+          style={{
+            backgroundImage: `url(${loginImage})`,
+            backgroundPosition:"top",
+            backgroundRepeat:"no-repeat",
+            backgroundSize:"cover"
+          }}
+          className={`${styles.mainImg} rounded-3xl`}>
           </div>
           <div className={`${styles.mainForm} w-full bg-white rounded-3xl p-8`}>
             <h1 className="font-bold text-2xl text-center mb-10">{translations[lang as keyof typeof translations].start}</h1>
@@ -187,5 +189,5 @@ const Login = () => {
 const schema = Yup.object().shape({
     username: Yup.string().required("Username bolmaly"),
     password: Yup.string().required("Password bolmaly"),
-  });
+});
 export default Login;

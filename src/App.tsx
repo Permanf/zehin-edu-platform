@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { PrivateRoute } from "./entities";
 import { useDispatch } from "react-redux";
-// import { LoadUser } from "./store/middleware/auth";
 import { loginSuccess, userLoadFailed, userLoading } from "./store/actions/auth";
 import { GetCookie } from "./utils/cookie";
 

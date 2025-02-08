@@ -1,23 +1,14 @@
 import { CheckIcon, Grid, Radio } from "@mantine/core"
+import { IAnswer, IAnswerProps, IOption } from "../../../types/questions.interface";
 
-export function AnswerSingle({question, options, currentStep, state, setState, examID}:any){
-    // console.log(question)
-    // console.log(options,"--answer");
-    const handleAnswerSelect = (answer:any) => {
-        // {"questionBankID":34, "examID ":33, "optionID ":321, "typeNumber ":1, "optionText ": " "},
-        // console.log(answer);
-        // console.log(state.answer,"--h");
-        // console.log(options,"--op");
-        // console.log(state.answer[currentStep - 1],"--active")
+export function AnswerSingle({question, options, currentStep, state, setState, examID}:IAnswerProps){
+    const handleAnswerSelect = (answer:IAnswer) => {
         const isAnswer = {"questionBankID": question.questionBankID, "examID": examID, "typeNumber": question?.typeNumber, "optionID": answer?.optionID, "optionText": answer?.name}
     if (currentStep){
-        const haveQuestionId = state.answer.some((element:any) => element.questionBankID == question.questionBankID)
+        const haveQuestionId = state.answer.some((element:{questionBankID: string}) => element.questionBankID == question.questionBankID)
         if (haveQuestionId){
-            // console.log("update")
-            // setState({ type: "UPDATE_ANSWER_SINGLE", payload: question.questionBankID});
             setState({ type: "UPDATE_ANSWER_SINGLE", payload: { questionId: question.questionBankID, answer: isAnswer}});
         } else {
-            // console.log("add")
             setState({ type: "ADD_ANSWER", payload: isAnswer });
         }
     }
@@ -25,7 +16,7 @@ export function AnswerSingle({question, options, currentStep, state, setState, e
     return(
         <>
         <Grid className="my-4" gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
-            {options?.map((item:any)=>{
+            {options?.map((item:IOption)=>{
                 return(
                 <Grid.Col 
                     span={{
@@ -39,12 +30,12 @@ export function AnswerSingle({question, options, currentStep, state, setState, e
                         <Radio 
                             icon={CheckIcon} 
                             name="check" 
-                            checked={state.answer.some((element:any) => element.optionID == item.optionID)}
+                            checked={state.answer.some((element: {optionID: number}) => element.optionID == item.optionID)}
                             onChange={() => handleAnswerSelect(item)}
                             className="cursor-pointer" 
                             />
                         <div 
-                        className={`${state.answer.some((element:any) => element.optionID == item.optionID) ? "border-primaryBlue-200 border" : "border-none"} rounded-xl bg-gray-100 w-full ml-3 p-4 cursor-pointer flex flex-col justify-center items-center font-medium`}
+                        className={`${state.answer.some((element: {optionID: number}) => element.optionID == item.optionID) ? "border-primaryBlue-200 border" : "border-none"} rounded-xl bg-gray-100 w-full ml-3 p-4 cursor-pointer flex flex-col justify-center items-center font-medium`}
                         onClick={() => handleAnswerSelect(item)}
                         >
                             {

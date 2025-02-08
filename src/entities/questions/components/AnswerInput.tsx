@@ -1,15 +1,15 @@
 import { Textarea } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useState } from "react";
+import { IAnswerProps } from "../../../types/questions.interface";
 
 
-export function AnswerInput({question, examID, currentStep, state, setState}:any){
+export function AnswerInput({question, examID, currentStep, state, setState}:IAnswerProps){
     const [value, setValue] = useState('');
     const [debounced] = useDebouncedValue(value, 400);
     useEffect(()=>{
-        state.answer.forEach((element:any) => {
+        state.answer.forEach((element:{optionID:number; optionText: string}) => {
             if (element.optionID == 0){
-                // console.log(element.optionText,"--")
                 setValue(element.optionText);
             }
         });
@@ -18,13 +18,10 @@ export function AnswerInput({question, examID, currentStep, state, setState}:any
     useEffect(()=>{
         const isAnswer = {"questionBankID": question.questionBankID, "examID": examID, "typeNumber": question?.typeNumber, "optionID": 0,  "optionText": debounced}
         if (currentStep && debounced){
-        const haveQuestionId = state.answer.some((element:any) => element.questionBankID == question.questionBankID)
+        const haveQuestionId = state.answer.some((element: {questionBankID: string}) => element.questionBankID == question.questionBankID)
             if (haveQuestionId){
-                // console.log("update");
-                // console.log(isAnswer,"--input")
                 setState({ type: "UPDATE_ANSWER_SINGLE", payload: { questionId: question.questionBankID, answer: isAnswer}});
             } else {
-                // console.log("add")
                 setState({ type: "ADD_ANSWER", payload: isAnswer });
             }
         }

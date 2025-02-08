@@ -11,7 +11,6 @@ export const useLoginUser = () => {
   return useMutation({
     mutationFn: (userData: any) => loginUser(userData),
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['login'] });
     },
     onError: (err: any) => {

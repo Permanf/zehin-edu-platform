@@ -12,7 +12,6 @@ import { Provider } from 'react-redux';
 import store from './store/index.ts';
 
 const theme = createTheme({
-  // fontFamily: "Raleway",
   colors: {
     'primary-blue': ['#4772EF', '#4772EF', '#4772EF', '#4772EF', '#4772EF', '#4772EF', '#4772EF', '#4772EF', '#4772EF', '#4772EF'],
   },

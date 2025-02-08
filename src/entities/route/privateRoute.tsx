@@ -1,8 +1,13 @@
 import { Center, Loader } from "@mantine/core";
+import { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
-export function PrivateRoute({ children }:any) {
+interface PrivateRouteProps {
+  children: ReactNode;
+}
+
+export function PrivateRoute({ children }: PrivateRouteProps) {
   const location = useLocation();
   const { isLogged, isLoading } = useSelector((state:any) => state.auth);
   if (isLoading) {

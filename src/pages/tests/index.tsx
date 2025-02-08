@@ -9,6 +9,14 @@ import translations from "./translation";
 import { useSelector } from "react-redux";
 import { getLang } from "../../store/selectors/auth";
 
+interface IOnlineExam{
+    id: number;
+    name: string;
+    duration: string;
+    questionCount: number;
+    onlineExamID: number;
+}
+
 const TestPage = () => {
     const lang = useSelector(getLang);
     const items = [
@@ -16,7 +24,6 @@ const TestPage = () => {
         { title: `${translations[lang as keyof typeof translations].tests}`, href: '/tests' },
       ]
     const {data: tests , isLoading } = useGetQuestions();
-    // const {data: testById} = useGetQuestionById({id: `3`});
     return(
         <>
             <div className="w-full h-20 rounded-xl bg-primaryBlue-100 flex items-center px-4 mt-10">
@@ -39,7 +46,7 @@ const TestPage = () => {
                 </Center>
                 :
                 <Grid className="my-4" gutter={{ base: 7, md: 'md', xl: "md" }}>
-                    {tests?.onlineExams?.map((item:any) => {
+                    {tests?.onlineExams?.map((item:IOnlineExam) => {
                         return(
                             <Grid.Col key={item.id} 
                                 span={{

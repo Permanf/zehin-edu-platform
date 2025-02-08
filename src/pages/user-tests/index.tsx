@@ -2,14 +2,21 @@ import { Avatar, Table } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import { getLang, getUser } from '../../store/selectors/auth';
 import translations from './translation';
-// import { Link } from 'react-router-dom';
-// import { IconEye } from '@tabler/icons-react';
+
+interface IExamResults{
+  onlineExamID: string;
+  userID: number;
+  totalAnswer: number;
+  totalCurrectAnswer: string;
+  totalQuestion: string;
+  statusID: number;
+  totalMark: string;
+}
 
 const  Users = () => {
   const user = useSelector(getUser);
   const lang= useSelector(getLang);
-  console.log(user?.examresults,"--")
-  const rows = user?.examresults?.map((element:any) => (
+  const rows = user?.examresults?.map((element:IExamResults) => (
     <Table.Tr key={element.onlineExamID}>
       <Table.Td>{element.userID}</Table.Td>
       <Table.Td>
@@ -23,13 +30,6 @@ const  Users = () => {
       <Table.Td>{parseInt(element?.totalQuestion) - parseInt(element?.totalCurrectAnswer)}</Table.Td>
       <Table.Td>{element.statusID}</Table.Td>
       <Table.Td>{element?.totalMark}</Table.Td>
-      {/* <Table.Td>
-        <Link to={`/user-tests/${element.onlineExamID}`} className='w-full'>
-          <ThemeIcon variant='light'>
-            <IconEye size={17} />
-          </ThemeIcon>
-        </Link>
-      </Table.Td> */}
     </Table.Tr>
   ));
 
@@ -45,7 +45,6 @@ const  Users = () => {
           <Table.Th>{translations[lang as keyof typeof translations].wrong}</Table.Th>
           <Table.Th>{translations[lang as keyof typeof translations].status}</Table.Th>
           <Table.Th>{translations[lang as keyof typeof translations].totalScore}</Table.Th>
-          {/* <Table.Th>{translations[lang as keyof typeof translations].action}</Table.Th> */}
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>{rows}</Table.Tbody>

@@ -83,9 +83,8 @@ const SlugQuestion = () => {
         loading: false,
         modal: false,
         answer: [],
-        // answer_multiple: [],
         delete_id: null,
-      });
+    });
     const exam = useSelector(getExam);
     const lang = useSelector(getLang)
     const addMutationExam = useExamResult();
@@ -100,14 +99,13 @@ const SlugQuestion = () => {
         navigate(`/tests`)
     }
     useEffect(() => {
-        const timer = setInterval(() => {
-        setTimeLeft((prevTime:any) => prevTime - 1);
-        }, 1000);
-        // Cleanup function to clear the interval when component unmounts
-        return () => clearInterval(timer);
+      const timer = setInterval(() => {
+      setTimeLeft((prevTime:number) => prevTime - 1);
+      }, 1000);
+      return () => clearInterval(timer);
     }, []);
 
-    const formatTime = (time:any) => {
+    const formatTime = (time:number) => {
       let have = 0
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
@@ -129,67 +127,46 @@ const SlugQuestion = () => {
     };
 
     const openModal = () => modals.openConfirmModal({
-        // title: 'Please confirm your action',
-        size: 'sm',
-        radius: 'md',
-        centered: true,
-        children: (
-            <span className="flex justify-center font-bold text-xl text-center">
-            {translations[lang as keyof typeof translations].sure}
-            </span>
-        ),
-        labels: { confirm: `${translations[lang as keyof typeof translations].yes}`, cancel: `${translations[lang as keyof typeof translations].no}` },
-        onCancel: () => console.log('Cancel'),
-        onConfirm: () => {
-            // console.log('Confirmed');
-            dispatch(setQuestionStatus(""));
-            navigate(`/tests`);
-        },
+      size: 'sm',
+      radius: 'md',
+      centered: true,
+      children: (
+          <span className="flex justify-center font-bold text-xl text-center">
+          {translations[lang as keyof typeof translations].sure}
+          </span>
+      ),
+      labels: { confirm: `${translations[lang as keyof typeof translations].yes}`, cancel: `${translations[lang as keyof typeof translations].no}` },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => {
+        dispatch(setQuestionStatus(""));
+        navigate(`/tests`);
+      },
     });
 
     const handleResult = () =>{
-        // console.log(state.answer?.length, "---", examQuestions?.questions?.length);
-        // console.log(state.answer,"--nusga");
-        setState({ type: "SET_LOADING", payload: true });
-        addMutationExam.mutate({answer: JSON.stringify(state.answer)});
-        // if (state.answer?.length != examQuestions?.questions?.length){
-        //     notifications.show({
-        //         color: "red",
-        //         title: 'Üstünlikli bolmady!',
-        //         message: `Jogaby saýlanman galan sorag bar`,
-        //       })
-        // } else {
-        //     console.log(state.answer,"---r")
-        //     setState({ type: "SET_LOADING", payload: true });
-        //     addMutationExam.mutate({answer: JSON.stringify(state.answer)});
-        // }
+      setState({ type: "SET_LOADING", payload: true });
+      addMutationExam.mutate({answer: JSON.stringify(state.answer)});
+      // if (state.answer?.length != examQuestions?.questions?.length){
+      //     notifications.show({
+      //         color: "red",
+      //         title: 'Üstünlikli bolmady!',
+      //         message: `Jogaby saýlanman galan sorag bar`,
+      //       })
+      // } else {
+      //     setState({ type: "SET_LOADING", payload: true });
+      //     addMutationExam.mutate({answer: JSON.stringify(state.answer)});
+      // }
     }
     useEffect(() => {
-        // console.log(addMutationExam,"--result");
-        if (addMutationExam.isSuccess) {
-          setState({ type: "SET_LOADING", payload: false });
-          // console.log("successfully");
-          dispatch(setExamId(exam?.onlineExamID));
-          navigate("/result");
-        }
-        if (addMutationExam.isError){
-          console.log("error")
-          setState({ type: "SET_LOADING", payload: false });
-        }
-      },[addMutationExam.status]);
-    
-    // console.log(testById)
-    useEffect(()=>{
-        console.log(examQuestions,"--exam")
-        // console.log(examQuestions?.questions[parseInt(params?.id ?? '') - 1])
-        // console.log(examQuestions?.options[parseInt(examQuestions?.questions[parseInt(params?.id ?? '') - 1]?.question ?? '')],"-options")
-        // console.log(state.answer,"--answer")
-        // questions?.forEach((item:any)=>{
-        //     if (item.id == params.id){
-        //         setQuestion(item)
-        //     }
-        // })
-    },[params.id]);
+      if (addMutationExam.isSuccess) {
+        setState({ type: "SET_LOADING", payload: false });
+        dispatch(setExamId(exam?.onlineExamID));
+        navigate("/result");
+      }
+      if (addMutationExam.isError){
+        setState({ type: "SET_LOADING", payload: false });
+      }
+    },[addMutationExam.status]);
 
     
     return(
@@ -262,28 +239,28 @@ const SlugQuestion = () => {
                     <Link to={`/questions/${parseInt(params?.id) - 1}`}>
                         <div className="w-48 mr-5">
                             <Button 
-                                leftSection={<IconChevronLeft color="black" />} 
-                                fullWidth 
-                                size="md" 
-                                color="gray.1"
-                                styles={{ label: { color: 'black' }}}
-                                >
-                                {translations[lang as keyof typeof translations].prev}
+                              leftSection={<IconChevronLeft color="black" />} 
+                              fullWidth 
+                              size="md" 
+                              color="gray.1"
+                              styles={{ label: { color: 'black' }}}
+                            >
+                              {translations[lang as keyof typeof translations].prev}
                             </Button>
                         </div>
                     </Link>
                     : null
                     }
                     <div className="w-48">
-                        {
-                            params?.id == examQuestions?.questions?.length
-                            ?
-                            <Button loading={state.loading} fullWidth size="md" onClick={handleResult}>{translations[lang as keyof typeof translations].result}</Button>
-                            :
-                            <Link to={`/questions/${parseInt(params?.id) + 1}`}>
-                                <Button fullWidth size="md" >{translations[lang as keyof typeof translations].next}</Button>
-                            </Link>
-                        }
+                      {
+                        params?.id == examQuestions?.questions?.length
+                        ?
+                        <Button loading={state.loading} fullWidth size="md" onClick={handleResult}>{translations[lang as keyof typeof translations].result}</Button>
+                        :
+                        <Link to={`/questions/${parseInt(params?.id) + 1}`}>
+                            <Button fullWidth size="md" >{translations[lang as keyof typeof translations].next}</Button>
+                        </Link>
+                      }
                     </div>
                     </>
                     :

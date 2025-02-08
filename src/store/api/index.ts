@@ -38,7 +38,6 @@ axiosInstance.interceptors.response.use(
       return axiosInstance
         .get("api/auth/token-refresh", config)
         .then((response) => {
-          console.log(response);
           axiosInstance.defaults.headers.Authorization = `Bearer ${response.data.token}`;
           originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
         //   store.dispatch(userLoaded(response.data));
@@ -60,7 +59,6 @@ axiosInstance.interceptors.response.use(
 );
 export const api = {
   get: async ({ url} : IGetApi ) => {
-    // console.log(token)
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +69,6 @@ export const api = {
     return await axiosInstance.get(url, config);
   },
   post: async ({ url, params, method } : IPostApi ) => {
-    // console.log(token)
     const config = {
       headers: {
         "Content-Type": "application/json",

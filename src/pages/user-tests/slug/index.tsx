@@ -2,11 +2,14 @@ import { useParams } from "react-router-dom"
 import { useGetExamHistory } from "../../../hooks/profile/useGetExamHistory";
 import { Grid } from "@mantine/core";
 
+interface IHistoryQuestion{
+    typeNumber: number;
+    questionBankID: number;
+}
 
 const UserExamHistory = () =>{
     const params = useParams();
     const {data: history} = useGetExamHistory({id: params.id});
-    console.log(history);
     return(
         <div className="w-full mt-10">
             <div className="flex flex-wrap justify-between text-xl font-semibold">
@@ -22,7 +25,7 @@ const UserExamHistory = () =>{
                 <span>Ýalnyş jogap: {history?.examHistory?.wrong}</span>
             </div>
             <Grid className="my-4 mt-[5rem]" gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
-            {history?.questions?.map((item:any, index:number)=>{
+            {history?.questions?.map((item:IHistoryQuestion, index:number)=>{
                 return(
                 <Grid.Col 
                     span={{

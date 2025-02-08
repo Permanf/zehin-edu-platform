@@ -1,22 +1,21 @@
 import { CheckIcon, Checkbox, Grid} from "@mantine/core"
+import { IAnswer, IAnswerProps, IOption } from "../../../types/questions.interface";
 
-export function AnswerMultiple({question, options, currentStep, state, setState, examID}:any){
-    // console.log(question)
-    // console.log(options,"--answer");
-    const handleAnswerSelect = (answer:any) => {
-        // {"questionBankID":34, "examID ":33, "optionID ":321, "typeNumber ":1, "optionText ": " "},
-        // console.log(answer);
-        // console.log(state.answer,"--h");
-        // console.log(options,"--op");
-        const isAnswer = {"questionBankID": question.questionBankID, "examID": examID, "typeNumber": question?.typeNumber, "optionID": answer?.optionID, "optionText": answer?.name}
+export function AnswerMultiple({question, examID, options, currentStep, state, setState}:IAnswerProps){
+
+    const handleAnswerSelect = (answer:IAnswer) => {
+    const isAnswer = {
+        "questionBankID": question.questionBankID, 
+        "examID": examID, 
+        "typeNumber": question?.typeNumber, 
+        "optionID": answer?.optionID, 
+        "optionText": answer?.name
+    }
     if (currentStep){
-        const haveOptionId = state.answer.some((element:any) => element.optionID == answer.optionID)
-        // console.log(haveOptionId,"--have");
+        const haveOptionId = state.answer.some((element:{optionID: number}) => element.optionID == answer.optionID)
         if (haveOptionId){
-            // console.log("update");
             setState({ type: "UPDATE_ANSWER_MULTIPLE", payload: answer.optionID });
         } else {
-            // console.log("add");
             setState({ type: "ADD_ANSWER", payload: isAnswer });
         }
     }
@@ -24,7 +23,7 @@ export function AnswerMultiple({question, options, currentStep, state, setState,
     return(
         <>
         <Grid className="my-4" gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
-            {options?.map((item:any)=>{
+            {options?.map((item:IOption)=>{
                 return(
                 <Grid.Col 
                     span={{
@@ -38,12 +37,12 @@ export function AnswerMultiple({question, options, currentStep, state, setState,
                         <Checkbox 
                             icon={CheckIcon} 
                             name="check" 
-                            checked={state.answer.some((element:any) => element.optionID == item.optionID)}
+                            checked={state.answer.some((element:{optionID: number}) => element.optionID == item.optionID)}
                             onChange={() => handleAnswerSelect(item)}
                             className="cursor-pointer" 
                             />
                         <div 
-                        className={`${state.answer.some((element:any) => element.optionID == item.optionID) ? "border-primaryBlue-200 border" : "border-none"} 
+                        className={`${state.answer.some((element:{optionID: number}) => element.optionID == item.optionID) ? "border-primaryBlue-200 border" : "border-none"} 
                         rounded-xl bg-gray-100 w-full ml-3 p-4 cursor-pointer flex flex-col justify-center items-center font-medium`}
                         onClick={() => handleAnswerSelect(item)}
                         >

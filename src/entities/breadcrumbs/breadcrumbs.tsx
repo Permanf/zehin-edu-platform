@@ -1,13 +1,21 @@
 import { Breadcrumbs, Anchor } from '@mantine/core';
 
-export function BreadcrumbsDemo({currentPage, items}:any) {
+interface IBreadCrumbs{
+  href: string; 
+  title: string
+}
+interface IBreadCrumbsProps{
+  currentPage: string;
+  items: Array<IBreadCrumbs>;
+}
+
+export function BreadcrumbsDemo({currentPage, items}:IBreadCrumbsProps) {
   return (
     <>
-      {/* <Breadcrumbs>{items}</Breadcrumbs> */}
       <div className='flex flex-col'>
       <span className='font-semibold text-lg mb-3'>{currentPage}</span>
       <Breadcrumbs separator="/" separatorMargin="md">
-        {items?.map((item:any, index:number) => (
+        {items?.map((item: IBreadCrumbs, index:number) => (
             <Anchor href={item.href} key={index} c="dark">
               {item.title}
             </Anchor>

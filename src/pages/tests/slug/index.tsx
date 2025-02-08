@@ -20,7 +20,7 @@ const TestSlugPage = () => {
     
     useEffect(()=>{
         if(tests?.onlineExams){
-            tests?.onlineExams?.forEach((item:any)=>{
+            tests?.onlineExams?.forEach((item:{onlineExamID: string})=>{
                 if (item.onlineExamID == params.id){
                     setQuestion(item);
                 }
@@ -34,7 +34,6 @@ const TestSlugPage = () => {
       ]
 
     const openModal = () => modals.openConfirmModal({
-        // title: 'Please confirm your action',
         size: 'sm',
         radius: 'md',
         centered: true,
@@ -44,9 +43,8 @@ const TestSlugPage = () => {
           </span>
         ),
         labels: { confirm: `${translations[lang as keyof typeof translations].start}`, cancel: `${translations[lang as keyof typeof translations].cancel}` },
-        onCancel: () => console.log('Cancel'),
+        // onCancel: () => console.log('Cancel'),
         onConfirm: () => {
-            console.log('Confirmed');
             dispatch(setQuestionStatus("start"));
             dispatch(setExamData(question));
             navigate(`/questions/1?id=${question.onlineExamID}`);

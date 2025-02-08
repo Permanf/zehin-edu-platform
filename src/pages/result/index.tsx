@@ -18,7 +18,7 @@ const ResultPage = () => {
         navigate("/tests")
     }
     useEffect(()=>{
-        user?.examresults?.forEach((item:any)=>{
+        user?.examresults?.forEach((item:{onlineExamID: number})=>{
             if (item.onlineExamID == 1){
                 setResult(item);   
             }

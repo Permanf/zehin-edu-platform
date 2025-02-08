@@ -1,5 +1,4 @@
 import { AppShell, Center, Loader } from '@mantine/core';
-// import { useDisclosure } from '@mantine/hooks';
 import { Suspense, lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { routes_app } from '../routes';
@@ -12,8 +11,6 @@ const NotFound = lazy(() => import("../pages/404"));
 
 
 function CollapseDesktop() {
-  // const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
-  // const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(false);
 
   return (
     <AppShell
@@ -31,12 +28,6 @@ function CollapseDesktop() {
       <AppShell.Navbar>Navbar</AppShell.Navbar>
       <AppShell.Main className={`${styles.layoutBody} flex flex-col items-center p-0 m-0 bg-primaryBlue-100`}>
       <div className={`${styles.layout} flex flex-col`}>
-        {/* <Button onClick={toggleDesktop} visibleFrom="sm">
-          Toggle navbar
-        </Button>
-        <Button onClick={toggleMobile} hiddenFrom="sm">
-          Toggle navbar
-        </Button> */}
         <Suspense fallback={<Center className='h-full'><Loader /></Center>}>
         <Routes>
         <Route path="/" element={<Navigate to="/tests" replace />} />
@@ -46,8 +37,6 @@ function CollapseDesktop() {
                 <Route
                     key={idx}
                     path={route?.path}
-                    // exact={route?.exact}
-                    // name={route?.name}
                     element={<route.element />}
                 />
                 )

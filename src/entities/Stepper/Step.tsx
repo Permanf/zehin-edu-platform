@@ -3,7 +3,12 @@ import translations from "../../pages/questions/translation";
 import { useSelector } from "react-redux";
 import { getLang } from "../../store/selectors/auth";
 
-export function Stepper({currentStep, steps}:any) {
+interface IStepperProps{
+  currentStep?: string | number;
+  steps: any;
+}
+
+export function Stepper({currentStep, steps}:IStepperProps) {
   const lang = useSelector(getLang)
   return (
     <>
@@ -13,7 +18,7 @@ export function Stepper({currentStep, steps}:any) {
             <span className='font-semibold mb-3 text-gray-300'>{currentStep} / {steps?.length}</span>
         </div>
       <Grid className="my-4" grow gutter={{ base: 7, md: 'md', xl: "md" }}>
-            {steps?.map((item:any, index:number) => {
+            {steps?.map((item:{id: number}, index:number) => {
                 return(
                     <Grid.Col key={item.id} 
                         span={{
