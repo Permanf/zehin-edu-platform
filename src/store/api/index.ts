@@ -1,16 +1,10 @@
 import axios from "axios";
 import { IDeleteApi, IGetApi, IPostApi, IUpdateApi, IUploadApi } from "./api.interface";
 import { GetCookie } from "../../utils/cookie";
-// import store from "../index";
-// import { userLoaded } from "../actions/auth";
-// import { Logout1 } from "../middlewares/auth";
-// import { GetCookie } from "../../utils/cookie";
 
-// const API_BASE_URL = process.env.REACT_APP_IS_PRODUCTION === 'development' ? process.env.REACT_APP_API_BASE_URL :  process.env.REACT_APP_API_BASE_PRODUCTION_URL;
 
 export const axiosInstance = axios.create({
-    // baseURL: API_BASE_URL,
-  baseURL: "http://93.171.223.101:880/api/v10",
+  // baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
     accept: "application/json",
@@ -25,7 +19,6 @@ axiosInstance.interceptors.response.use(
     if (
       error.response.status === 401 &&
       error.response.data === "Unauthorized" 
-    //   && GetCookie("refresh_token")
     ) {
       const config = {
         headers: {
